@@ -6,6 +6,8 @@ import lk.zerocode.library.api.Exceptions.*;
 import lk.zerocode.library.api.Model.*;
 import lk.zerocode.library.api.Repository.*;
 import lk.zerocode.library.api.Service.LibraryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,9 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Autowired
     private BorrowBookRepository borrowBookRepository;
+
+
+    Logger log = LoggerFactory.getLogger(LibraryServiceImpl.class);
 
 
     //Author methods
@@ -349,6 +354,7 @@ public class LibraryServiceImpl implements LibraryService {
             borrowBook.setMember(memberOptional.get());
             borrowBook.setBook(bookOptional.get());
             deductAvailableBooks(bookOptional.get());
+            log.info("Successfully deduct number of available books by one.");
         }
 
         borrowBookRepository.save(borrowBook);
@@ -380,6 +386,7 @@ public class LibraryServiceImpl implements LibraryService {
     public void deleteBorrowedBookById(Long id) throws BorrowBookNotFoundException {
         if (borrowBookRepository.existsById(id)){
             addAvailableBooks(bookRepository.findById(borrowBookRepository.findById(id).get().getBook().getId()).get());
+            log.info("Successfully add number of available books by one.");
             borrowBookRepository.deleteById(id);
         }
         else

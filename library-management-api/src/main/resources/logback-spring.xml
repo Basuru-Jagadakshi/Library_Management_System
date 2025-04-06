@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5001</destination>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc/>
+                <context/>
+                <logLevel/>
+                <loggerName/>
+                <pattern>
+                    <pattern>
+                        {
+                        "app": "spring-boot-app",
+                        "company_name":"ZeroCode",
+                        "developer":"Basu"
+                        }
+                    </pattern>
+                </pattern>
+                <threadName/>
+                <message/>
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+
+
+    <appender name="file_appender" class="ch.qos.logback.core.FileAppender">
+        <file>logs/simple.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <root level="info">
+        <appender-ref ref="logstash"/>
+    </root>
+
+<!--    <springProfile name="dev">-->
+<!--        <logger name="lk.zerocode.api.controller.TestLogController" level="warn">-->
+<!--            <appender-ref ref="file_appender"/>-->
+<!--        </logger>-->
+<!--    </springProfile>-->
+
+</configuration>
