@@ -5,6 +5,7 @@ import lk.zerocode.library.api.Model.Category;
 
 public class BookResponseDTO {
 
+    private Long id;
     private String title;
     private String isbn;
     private String publishedYear;
@@ -16,7 +17,8 @@ public class BookResponseDTO {
     public BookResponseDTO() {
     }
 
-    public BookResponseDTO(String title, String isbn, String publishedYear, Integer totalCopies, Integer availableCopies, Author author, Category category) {
+    public BookResponseDTO(Long id, String title, String isbn, String publishedYear, Integer totalCopies, Integer availableCopies, Author author, Category category) {
+        this.id = id;
         this.title = title;
         this.isbn = isbn;
         this.publishedYear = publishedYear;
@@ -24,6 +26,14 @@ public class BookResponseDTO {
         this.availableCopies = availableCopies;
         this.author = author;
         this.category = category;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

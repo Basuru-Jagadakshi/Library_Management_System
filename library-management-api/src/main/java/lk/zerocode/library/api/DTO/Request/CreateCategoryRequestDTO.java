@@ -2,7 +2,9 @@ package lk.zerocode.library.api.DTO.Request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class CreateCategoryRequestDTO {
+import java.io.Serializable;
+
+public class CreateCategoryRequestDTO implements Serializable {
 
     @NotBlank(message = "Category Name is required")
     private String categoryName;

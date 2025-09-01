@@ -55,7 +55,7 @@ public class LibraryServiceImpl implements LibraryService {
 
         if(authorOptional.isPresent()){
             Author author = authorOptional.get();
-            return new AuthorResponseDTO(author.getAuthorName(), author.getAuthorBio());
+            return new AuthorResponseDTO(author.getId(), author.getAuthorName(), author.getAuthorBio());
         }
         else {
             throw new AuthorNotFoundException();
@@ -65,7 +65,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public List<AuthorResponseDTO> getAuthors() {
         return authorRepository.findAll().stream()
-                .map(author -> new AuthorResponseDTO(author.getAuthorName(), author.getAuthorBio()))
+                .map(author -> new AuthorResponseDTO(author.getId(), author.getAuthorName(), author.getAuthorBio()))
                 .collect(Collectors.toList());
     }
 
@@ -91,7 +91,7 @@ public class LibraryServiceImpl implements LibraryService {
 
             authorRepository.save(author);
 
-            return new AuthorResponseDTO(author.getAuthorName(), author.getAuthorBio());
+            return new AuthorResponseDTO(author.getId(), author.getAuthorName(), author.getAuthorBio());
         }
         else {
             throw new AuthorNotFoundException();
@@ -104,13 +104,13 @@ public class LibraryServiceImpl implements LibraryService {
 
     //Category methods
     @Override
-    public void saveCategory(CreateCategoryRequestDTO createCategoryRequestDTO) {
+    public Category saveCategory(CreateCategoryRequestDTO createCategoryRequestDTO) {
         Category category = new Category();
 
         category.setCategoryName(createCategoryRequestDTO.getCategoryName());
         category.setDescription(createCategoryRequestDTO.getDescription());
 
-        categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class LibraryServiceImpl implements LibraryService {
 
         if(categoryOptional.isPresent()){
             Category category = categoryOptional.get();
-            return new CategoryResponseDTO(category.getCategoryName(),
+            return new CategoryResponseDTO(category.getId(), category.getCategoryName(),
                     category.getDescription());
         }
         else {
@@ -130,7 +130,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public List<CategoryResponseDTO> getAllCategory() {
         return categoryRepository.findAll().stream().
-                map(category -> new CategoryResponseDTO(category.getCategoryName(), category.getDescription())).
+                map(category -> new CategoryResponseDTO(category.getId(), category.getCategoryName(), category.getDescription())).
                 collect(Collectors.toList());
     }
 
@@ -156,7 +156,7 @@ public class LibraryServiceImpl implements LibraryService {
 
             categoryRepository.save(category);
 
-            return new CategoryResponseDTO(category.getCategoryName(), category.getDescription());
+            return new CategoryResponseDTO(category.getId(), category.getCategoryName(), category.getDescription());
         }
         else {
             throw new CategoryNotFoundException();
@@ -181,7 +181,7 @@ public class LibraryServiceImpl implements LibraryService {
         if (memberOptional.isPresent()){
             Member member = memberOptional.get();
 
-            return new MemberResponseDTO(member.getMemberName(), member.getEmail());
+            return new MemberResponseDTO(member.getId(), member.getMemberName(), member.getEmail());
         }
         else {
             throw new MemberNotFoundException();
@@ -191,7 +191,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public List<MemberResponseDTO> getMembers() {
         return memberRepository.findAll().stream().
-                map(member -> new MemberResponseDTO(member.getMemberName(), member.getEmail())).
+                map(member -> new MemberResponseDTO(member.getId(), member.getMemberName(), member.getEmail())).
                 collect(Collectors.toList());
     }
 
@@ -216,7 +216,7 @@ public class LibraryServiceImpl implements LibraryService {
 
             memberRepository.save(member);
 
-            return new MemberResponseDTO(member.getMemberName(), member.getEmail());
+            return new MemberResponseDTO(member.getId(), member.getMemberName(), member.getEmail());
         }
         else {
             throw new MemberNotFoundException();
@@ -260,7 +260,7 @@ public class LibraryServiceImpl implements LibraryService {
         if (bookOptional.isPresent()){
             Book book = bookOptional.get();
 
-            return new BookResponseDTO(book.getTitle(),
+            return new BookResponseDTO(book.getId(), book.getTitle(),
                     book.getIsbn(),
                     book.getPublishedYear(),
                     book.getTotalCopies(),
@@ -275,7 +275,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public List<BookResponseDTO> getAllBooks() {
         return bookRepository.findAll().stream().
-                map(book -> new BookResponseDTO(book.getTitle(),
+                map(book -> new BookResponseDTO(book.getId(), book.getTitle(),
                         book.getIsbn(),
                         book.getPublishedYear(),
                         book.getTotalCopies(),
@@ -320,7 +320,7 @@ public class LibraryServiceImpl implements LibraryService {
 
             bookRepository.save(book);
 
-            return new BookResponseDTO(book.getTitle(),
+            return new BookResponseDTO(book.getId(), book.getTitle(),
                     book.getIsbn(),
                     book.getPublishedYear(),
                     book.getTotalCopies(),
@@ -339,7 +339,7 @@ public class LibraryServiceImpl implements LibraryService {
     //BorrowedBook methods
     @Transactional
     @Override
-    public void saveBorrowedBook(CreateBorrowedBookRequestDTO createBorrowedBookRequestDTO) throws MemberNotFoundException, BookNotFoundException {
+    public void saveBorrowedBook(CreateBorrowedBookRequestDTO createBorrowedBookRequestDTO) throws MemberNotFoundException, BookNotFoundException, NoAvailableCopiesException {
         BorrowBook borrowBook = new BorrowBook();
 
         Optional<Member> memberOptional = memberRepository.findById(createBorrowedBookRequestDTO.getMemberId());
@@ -364,7 +364,7 @@ public class LibraryServiceImpl implements LibraryService {
     public BorrowedBookResponseDTO getBorrowedBookById(Long id) throws BorrowBookNotFoundException {
         BorrowBook borrowBookOptional = borrowBookRepository.findById(id).orElseThrow(() ->new BorrowBookNotFoundException());
 
-        return new BorrowedBookResponseDTO(borrowBookOptional.getMember().getId(),
+        return new BorrowedBookResponseDTO(borrowBookOptional.getId(), borrowBookOptional.getMember().getId(),
                 borrowBookOptional.getBook().getId(),
                 borrowBookOptional.getStatus(),
                 borrowBookOptional.getBorrowedDate(),
@@ -374,7 +374,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public List<BorrowedBookResponseDTO> getBorrowedBook() {
         return borrowBookRepository.findAll().stream().
-                map(borrowBook -> new BorrowedBookResponseDTO(borrowBook.getMember().getId(),
+                map(borrowBook -> new BorrowedBookResponseDTO(borrowBook.getId(), borrowBook.getMember().getId(),
                         borrowBook.getBook().getId(),
                         borrowBook.getStatus(),
                         borrowBook.getBorrowedDate(),
@@ -405,11 +405,20 @@ public class LibraryServiceImpl implements LibraryService {
 
         borrowBookRepository.save(borrowBook);
 
-        return new BorrowedBookResponseDTO(borrowBook.getMember().getId(),
+        return new BorrowedBookResponseDTO(borrowBook.getId(), borrowBook.getMember().getId(),
                 borrowBook.getBook().getId(),
                 borrowBook.getStatus(),
                 borrowBook.getBorrowedDate(),
                 borrowBook.getDueDate());
+    }
+
+
+
+
+    //User Functions
+    @Override
+    public List<Book> getBooksByAuthorAndCategory(String authorName, String categoryName) {
+        return bookRepository.findBooksByAuthorAndCategory(authorName, categoryName);
     }
 
 
@@ -424,10 +433,20 @@ public class LibraryServiceImpl implements LibraryService {
 
 
 
+
+
+
+
+
     //deduct number of available books
-    private void deductAvailableBooks(Book book){
-        book.setAvailableCopies(book.getAvailableCopies() - 1);
-        bookRepository.save(book);
+    private void deductAvailableBooks(Book book) throws NoAvailableCopiesException {
+        if(book.getAvailableCopies()>0){
+            book.setAvailableCopies(book.getAvailableCopies() - 1);
+            bookRepository.save(book);
+        }
+        else {
+            throw new NoAvailableCopiesException();
+        }
     }
 
 

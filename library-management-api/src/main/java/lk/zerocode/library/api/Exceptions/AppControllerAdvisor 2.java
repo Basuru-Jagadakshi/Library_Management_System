@@ -21,13 +21,6 @@ public class AppControllerAdvisor {
         return new ErrorResponse(ex.getMessage());
     }
 
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({NoAvailableCopiesException.class})
-    public ErrorResponse handleNoAvailableCopiesException(NoAvailableCopiesException ex){
-        log.warn(ex.getMessage());
-        return new ErrorResponse(ex.getMessage());
-    }
-
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)

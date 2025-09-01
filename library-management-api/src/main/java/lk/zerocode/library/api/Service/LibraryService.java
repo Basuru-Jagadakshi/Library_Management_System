@@ -3,10 +3,10 @@ package lk.zerocode.library.api.Service;
 import lk.zerocode.library.api.DTO.Request.*;
 import lk.zerocode.library.api.DTO.Response.*;
 import lk.zerocode.library.api.Exceptions.*;
-import lk.zerocode.library.api.Model.Author;
+import lk.zerocode.library.api.Model.Book;
+import lk.zerocode.library.api.Model.Category;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface LibraryService {
 
@@ -24,7 +24,7 @@ public interface LibraryService {
 
 
     //Category methods
-    void saveCategory(CreateCategoryRequestDTO createCategoryRequestDTO);
+    Category saveCategory(CreateCategoryRequestDTO createCategoryRequestDTO);
 
     CategoryResponseDTO getCategoryById(Long id) throws CategoryNotFoundException;
 
@@ -65,7 +65,7 @@ public interface LibraryService {
 
 
     //BorrowedBook methods
-    void saveBorrowedBook(CreateBorrowedBookRequestDTO createBorrowedBookRequestDTO) throws MemberNotFoundException, BookNotFoundException;
+    void saveBorrowedBook(CreateBorrowedBookRequestDTO createBorrowedBookRequestDTO) throws MemberNotFoundException, BookNotFoundException, NoAvailableCopiesException;
 
     BorrowedBookResponseDTO getBorrowedBookById(Long id) throws BorrowBookNotFoundException;
 
@@ -74,4 +74,9 @@ public interface LibraryService {
     void deleteBorrowedBookById(Long id) throws BorrowBookNotFoundException;
 
     BorrowedBookResponseDTO updateBorrowedBookById(UpdateBorrowedBookRequestDTO updateBorrowedBookRequestDTO) throws BorrowBookNotFoundException, MemberNotFoundException, BookNotFoundException;
+
+
+
+    //User Functions
+    List<Book> getBooksByAuthorAndCategory(String authorName, String categoryName);
 }

@@ -1,0 +1,12 @@
+#listen from all network interfaces.
+#This allows external connections to Logstash from other servers or applications.
+#simply allow connection from any server. if you want to allow connection from localhost then changed to http.host: "127.0.0.1"
+http.host: "0.0.0.0"
+
+#Defines the directory where Logstash looks for pipeline configuration files
+#These files specify how Logstash collects, processes, and sends data to Elasticsearch.
+path.config: /usr/share/logstash/pipeline
+
+#X-Pack Monitoring is a feature in the Elastic Stack that provides real-time monitoring for Elasticsearch, Logstash, Kibana, and Beats.
+#Allows you to monitor Logstash performance in Kibana → Stack Monitoring.
+xpack.monitoring.elasticsearch.hosts: [ "elasticsearch:9200" ]

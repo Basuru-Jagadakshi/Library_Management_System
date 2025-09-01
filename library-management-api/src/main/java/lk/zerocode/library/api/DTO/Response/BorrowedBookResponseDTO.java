@@ -4,18 +4,28 @@ import java.time.LocalDate;
 
 public class BorrowedBookResponseDTO {
 
+    private Long id;
     private Long userId;
     private Long bookId;
     private String status;
     private LocalDate borrowedDate;
     private LocalDate dueDate;
 
-    public BorrowedBookResponseDTO(Long userId, Long bookId, String status, LocalDate borrowedDate, LocalDate dueDate) {
+    public BorrowedBookResponseDTO(Long id, Long userId, Long bookId, String status, LocalDate borrowedDate, LocalDate dueDate) {
+        this.id = id;
         this.userId = userId;
         this.bookId = bookId;
         this.status = status;
         this.borrowedDate = borrowedDate;
         this.dueDate = dueDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getUserId() {

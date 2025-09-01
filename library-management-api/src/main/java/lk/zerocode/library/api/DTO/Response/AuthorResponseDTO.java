@@ -5,15 +5,25 @@ import jakarta.validation.constraints.NotNull;
 public class AuthorResponseDTO {
 
 
+    private Long id;
     private String authorName;
     private String bio;
 
     public AuthorResponseDTO() {
     }
 
-    public AuthorResponseDTO(String authorName, String bio) {
+    public AuthorResponseDTO(Long id, String authorName, String bio) {
+        this.id = id;
         this.authorName = authorName;
         this.bio = bio;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAuthorName() {
