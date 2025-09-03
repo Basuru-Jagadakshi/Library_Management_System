@@ -1,5 +1,6 @@
 package lk.zerocode.library.api.Controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lk.zerocode.library.api.DTO.Request.AuthRequest;
 import lk.zerocode.library.api.Security.JwtUtil;
 import org.slf4j.Logger;
@@ -12,15 +13,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
 
 @RestController
 //@AllArgsConstructor
+@RequestMapping(value = "/api")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired
