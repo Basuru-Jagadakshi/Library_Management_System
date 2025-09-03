@@ -3,6 +3,7 @@ package lk.zerocode.library.api.Controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lk.zerocode.library.api.DTO.Request.*;
 import lk.zerocode.library.api.DTO.Response.*;
@@ -33,6 +34,7 @@ public class LibraryController {
 
 
     //Author methods
+    @RolesAllowed("ADMIN")
     @Operation(
             summary = "POST operation on authors",
             description = "It is used to save authors in the database"
@@ -42,6 +44,7 @@ public class LibraryController {
         libraryService.saveAuthor(createAuthorRequestDTO);
     }
 
+    @RolesAllowed("ADMIN")
     @Operation(
             summary = "GET operation by using author id",
             description = "It is used to retrieve authors from the database"
@@ -50,6 +53,7 @@ public class LibraryController {
     public AuthorResponseDTO getAuthorById(@PathVariable Long id) throws AuthorNotFoundException{
         return libraryService.getAuthorById(id);
     }
+
 
     @Operation(
             summary = "GET operation on author",
@@ -60,6 +64,7 @@ public class LibraryController {
         return libraryService.getAuthors();
     }
 
+    @RolesAllowed("ADMIN")
     @Operation(
             summary = "DELETE operation on author",
             description = "It is used to delete authors from the database"
@@ -69,6 +74,7 @@ public class LibraryController {
         libraryService.deleteAuthor(id);
     }
 
+    @RolesAllowed("ADMIN")
     @Operation(
             summary = "PUT operation on author",
             description = "It is used to update authors in the database"
@@ -80,17 +86,20 @@ public class LibraryController {
 
 
     //Category methods
+    @RolesAllowed("ADMIN")
     @PostMapping(value = "/categories")
     @CachePut(cacheNames = "categories", key = "#result.id")
     public Category saveCategory(@Valid @RequestBody CreateCategoryRequestDTO createCategoryRequestDTO){
         return libraryService.saveCategory(createCategoryRequestDTO);
     }
 
+    @RolesAllowed("ADMIN")
     @GetMapping(value = "/categories/{id}")
     @Cacheable(value = "categories", key = "#id")
     public CategoryResponseDTO getCategoryById(@PathVariable Long id) throws CategoryNotFoundException{
         return libraryService.getCategoryById(id);
     }
+
 
     @GetMapping(value = "/categories")
     @Cacheable(value = "categories", key = "'all'")
@@ -98,12 +107,14 @@ public class LibraryController {
         return libraryService.getAllCategory();
     }
 
+    @RolesAllowed("ADMIN")
     @DeleteMapping(value = "/categories/{id}")
     @CacheEvict(value = "categories", key = "#id")
     public void deleteCategory(@PathVariable Long id) throws CategoryNotFoundException{
         libraryService.deleteCategory(id);
     }
 
+    @RolesAllowed("ADMIN")
     @PutMapping(value = "/categories")
     @CachePut(value = "categories", key = "#updateCategoryRequestDTO.id")
     public CategoryResponseDTO updateCategory(@Valid @RequestBody UpdateCategoryRequestDTO updateCategoryRequestDTO) throws CategoryNotFoundException{
@@ -114,21 +125,25 @@ public class LibraryController {
 
 
     //Member methods
+    @RolesAllowed("ADMIN")
     @PostMapping(value = "/members")
     public void saveMember(@Valid @RequestBody CreateMemberRequestDTO createMemberRequestDTO){
         libraryService.saveMember(createMemberRequestDTO);
     }
+
 
     @GetMapping(value = "/members/{id}")
     public MemberResponseDTO getMemberById(@PathVariable Long id) throws MemberNotFoundException{
         return libraryService.getMemberById(id);
     }
 
+    @RolesAllowed("ADMIN")
     @GetMapping(value = "/members")
     public List<MemberResponseDTO> getMembers(){
         return libraryService.getMembers();
     }
 
+    @RolesAllowed("ADMIN")
     @DeleteMapping(value = "/members/{id}")
     public void deleteMember(@PathVariable Long id) throws MemberNotFoundException{
         libraryService.deleteMember(id);
@@ -142,26 +157,31 @@ public class LibraryController {
 
 
     //Book methods
+    @RolesAllowed("ADMIN")
     @PostMapping(value = "/books")
     public void saveBook(@Valid @RequestBody CreateBookRequestDTO createBookRequestDTO) throws AuthorNotFoundException, CategoryNotFoundException{
         libraryService.saveBook(createBookRequestDTO);
     }
+
 
     @GetMapping(value = "/books/{id}")
     public BookResponseDTO getBookById(@PathVariable Long id) throws BookNotFoundException{
         return libraryService.getBookById(id);
     }
 
+
     @GetMapping(value = "/books")
     public List<BookResponseDTO> getAllBooks(){
         return libraryService.getAllBooks();
     }
 
+    @RolesAllowed("ADMIN")
     @DeleteMapping(value = "/books/{id}")
     public void deleteBookById(@PathVariable Long id) throws BookNotFoundException{
         libraryService.deleteBookById(id);
     }
 
+    @RolesAllowed("ADMIN")
     @PutMapping(value = "/books")
     public BookResponseDTO updateBookById(@Valid @RequestBody UpdateBookRequestDTO updateBookRequestDTO) throws BookNotFoundException, AuthorNotFoundException, CategoryNotFoundException{
         return libraryService.updateBookById(updateBookRequestDTO);
@@ -171,26 +191,31 @@ public class LibraryController {
 
 
     //BorrowedBooks method
+    @RolesAllowed("ADMIN")
     @PostMapping(value = "/borrowed-books")
     public void saveBorrowedBook(@Valid @RequestBody CreateBorrowedBookRequestDTO createBorrowedBookRequestDTO) throws MemberNotFoundException, BookNotFoundException, NoAvailableCopiesException{
         libraryService.saveBorrowedBook(createBorrowedBookRequestDTO);
     }
 
+    @RolesAllowed("ADMIN")
     @GetMapping(value = "/borrowed-books/{id}")
     public BorrowedBookResponseDTO getBorrowedBookById(@PathVariable Long id) throws BorrowBookNotFoundException{
         return libraryService.getBorrowedBookById(id);
     }
 
+    @RolesAllowed("ADMIN")
     @GetMapping(value = "/borrowed-books")
     public List<BorrowedBookResponseDTO> getBorrowedBook(){
         return libraryService.getBorrowedBook();
     }
 
+    @RolesAllowed("ADMIN")
     @DeleteMapping(value = "/borrowed-books/{id}")
     public void deleteBorrowedBookById(@PathVariable Long id) throws BorrowBookNotFoundException{
         libraryService.deleteBorrowedBookById(id);
     }
 
+    @RolesAllowed("ADMIN")
     @PutMapping(value = "/borrowed-books")
     public BorrowedBookResponseDTO updateBorrowedBookById(@Valid @RequestBody UpdateBorrowedBookRequestDTO updateBorrowedBookRequestDTO) throws BorrowBookNotFoundException, MemberNotFoundException, BookNotFoundException{
         return libraryService.updateBorrowedBookById(updateBorrowedBookRequestDTO);
@@ -200,6 +225,7 @@ public class LibraryController {
 
 
     //User Functions
+    @RolesAllowed({"USER"})
     @GetMapping("/filter")
     public List<Book> filterBooks(
             @RequestParam(required = false) String authorName,

@@ -9,6 +9,7 @@ import lk.zerocode.library.api.Service.LibraryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,9 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Autowired
     private BorrowBookRepository borrowBookRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     Logger log = LoggerFactory.getLogger(LibraryServiceImpl.class);
@@ -171,6 +175,9 @@ public class LibraryServiceImpl implements LibraryService {
 
         member.setMemberName(createMemberRequestDTO.getMemberName());
         member.setEmail(createMemberRequestDTO.getEmail());
+        member.setUserName(createMemberRequestDTO.getUserName());
+        member.setPassword(passwordEncoder.encode(createMemberRequestDTO.getPassword()));
+        member.setEnabled(true);
 
         memberRepository.save(member);
     }
@@ -236,6 +243,7 @@ public class LibraryServiceImpl implements LibraryService {
         book.setPublishedYear(createBookRequestDTO.getPublishedYear());
         book.setTotalCopies(createBookRequestDTO.getTotalCopies());
         book.setAvailableCopies(createBookRequestDTO.getAvailableCopies());
+        book.setDescription(createBookRequestDTO.getDescription());
 
         Optional<Author> authorOptional = authorRepository.findById(createBookRequestDTO.getAuthorId());
         Optional<Category> categoryOptional = categoryRepository.findById(createBookRequestDTO.getCategoryId());
@@ -265,6 +273,7 @@ public class LibraryServiceImpl implements LibraryService {
                     book.getPublishedYear(),
                     book.getTotalCopies(),
                     book.getAvailableCopies(),
+                    book.getDescription(),
                     book.getAuthor(),
                     book.getCategory());
         }
@@ -280,6 +289,7 @@ public class LibraryServiceImpl implements LibraryService {
                         book.getPublishedYear(),
                         book.getTotalCopies(),
                         book.getAvailableCopies(),
+                        book.getDescription(),
                         book.getAuthor(),
                         book.getCategory())).collect(Collectors.toList());
     }
@@ -304,6 +314,7 @@ public class LibraryServiceImpl implements LibraryService {
             book.setPublishedYear(updateBookRequestDTO.getPublishedYear());
             book.setTotalCopies(updateBookRequestDTO.getTotalCopies());
             book.setAvailableCopies(updateBookRequestDTO.getAvailableCopies());
+            book.setDescription(updateBookRequestDTO.getDescription());
 
             Optional<Author> authorOptional = authorRepository.findById(updateBookRequestDTO.getAuthorId());
             Optional<Category> categoryOptional = categoryRepository.findById(updateBookRequestDTO.getCategoryId());
@@ -325,6 +336,7 @@ public class LibraryServiceImpl implements LibraryService {
                     book.getPublishedYear(),
                     book.getTotalCopies(),
                     book.getAvailableCopies(),
+                    book.getDescription(),
                     book.getAuthor(),
                     book.getCategory());
         }

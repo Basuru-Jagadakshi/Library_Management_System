@@ -13,12 +13,14 @@ public class CreateBookRequestDTO {
     private String isbn;
     private String publishedYear;
     @NotNull(message = "Total copies is required")
-    @Min(value = 1)
+    @Min(value = 0)
     private Integer totalCopies;
 
     @NotNull(message = "Available copies is required")
-    @Min(value = 1)
+    @Min(value = 0)
     private Integer availableCopies;
+
+    private String description;
     @NotNull(message = "Author ID is required")
     private Long authorId;
     @NotNull(message = "Category ID is required")
@@ -27,12 +29,13 @@ public class CreateBookRequestDTO {
     public CreateBookRequestDTO() {
     }
 
-    public CreateBookRequestDTO(String title, String isbn, String publishedYear, Integer totalCopies, Integer availableCopies, Long authorId, Long categoryId) {
+    public CreateBookRequestDTO(String title, String isbn, String publishedYear, Integer totalCopies, Integer availableCopies, String description, Long authorId, Long categoryId) {
         this.title = title;
         this.isbn = isbn;
         this.publishedYear = publishedYear;
         this.totalCopies = totalCopies;
         this.availableCopies = availableCopies;
+        this.description = description;
         this.authorId = authorId;
         this.categoryId = categoryId;
     }
@@ -91,5 +94,13 @@ public class CreateBookRequestDTO {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

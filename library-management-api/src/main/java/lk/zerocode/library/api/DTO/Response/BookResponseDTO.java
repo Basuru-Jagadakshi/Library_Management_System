@@ -11,19 +11,21 @@ public class BookResponseDTO {
     private String publishedYear;
     private Integer totalCopies;
     private Integer availableCopies;
+    private String description;
     private Author author;
     private Category category;
 
     public BookResponseDTO() {
     }
 
-    public BookResponseDTO(Long id, String title, String isbn, String publishedYear, Integer totalCopies, Integer availableCopies, Author author, Category category) {
+    public BookResponseDTO(Long id, String title, String isbn, String publishedYear, Integer totalCopies, Integer availableCopies, String description, Author author, Category category) {
         this.id = id;
         this.title = title;
         this.isbn = isbn;
         this.publishedYear = publishedYear;
         this.totalCopies = totalCopies;
         this.availableCopies = availableCopies;
+        this.description = description;
         this.author = author;
         this.category = category;
     }
@@ -90,5 +92,13 @@ public class BookResponseDTO {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

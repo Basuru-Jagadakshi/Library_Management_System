@@ -20,6 +20,20 @@ public class Member {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "user_name")
+    private String userName;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Authority> authorities;
+
+
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<BorrowBook> borrowBooks;
 
@@ -46,5 +60,45 @@ public class Member {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public List<BorrowBook> getBorrowBooks() {
+        return borrowBooks;
+    }
+
+    public void setBorrowBooks(List<BorrowBook> borrowBooks) {
+        this.borrowBooks = borrowBooks;
     }
 }

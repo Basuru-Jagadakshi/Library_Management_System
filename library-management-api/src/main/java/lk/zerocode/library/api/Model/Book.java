@@ -28,6 +28,10 @@ public class Book {
 
     @Column(name = "available_copies")
     private Integer availableCopies;
+
+    @Column(name = "description")
+    private String description;
+
     @ManyToOne
     private Author author;
     @ManyToOne
@@ -105,5 +109,13 @@ public class Book {
 
     public void setBorrowBooks(List<BorrowBook> borrowBooks) {
         this.borrowBooks = borrowBooks;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

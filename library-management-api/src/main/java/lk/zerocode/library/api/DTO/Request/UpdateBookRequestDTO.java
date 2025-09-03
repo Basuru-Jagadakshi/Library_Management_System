@@ -19,6 +19,8 @@ public class UpdateBookRequestDTO {
     @NotNull(message = "Available copies is required")
     @Min(value = 1)
     private Integer availableCopies;
+
+    private String description;
     @NotNull(message = "Author ID is required")
     private Long authorId;
     @NotNull(message = "Category ID is required")
@@ -27,13 +29,14 @@ public class UpdateBookRequestDTO {
     public UpdateBookRequestDTO() {
     }
 
-    public UpdateBookRequestDTO(Long id, String title, String isbn, String publishedYear, Integer totalCopies, Integer availableCopies, Long authorId, Long categoryId) {
+    public UpdateBookRequestDTO(Long id, String title, String isbn, String publishedYear, Integer totalCopies, Integer availableCopies, String description, Long authorId, Long categoryId) {
         this.id = id;
         this.title = title;
         this.isbn = isbn;
         this.publishedYear = publishedYear;
         this.totalCopies = totalCopies;
         this.availableCopies = availableCopies;
+        this.description = description;
         this.authorId = authorId;
         this.categoryId = categoryId;
     }
@@ -100,5 +103,13 @@ public class UpdateBookRequestDTO {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
